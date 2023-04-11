@@ -1,0 +1,35 @@
+const display = document.querySelector('.result');
+const buttons = document.querySelectorAll('button');
+let inputValue = '';
+let resultValue = null;
+let operator = null;
+
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    if (button.classList.contains('number')) {
+      inputValue += button.textContent;
+      display.value = inputValue;
+    } else if (button.classList.contains('operator')) {
+      resultValue = parseFloat(inputValue);
+      inputValue = '';
+      operator = button.textContent;
+    } else if (button.classList.contains('decimal')) {
+      if (!inputValue.includes('.')) {
+        inputValue += '.';
+        display.value = inputValue;
+      }
+    } else if (button.classList.contains('all-clear')) {
+      inputValue = '';
+      resultValue = null;
+      operator = null;
+      display.value = '';
+    } else if (button.classList.contains('equals')) {
+      const secondValue = parseFloat(inputValue);
+      const calculation = eval(`${resultValue} ${operator} ${secondValue}`);
+      inputValue = calculation;
+      operator = null;
+      resultValue = null;
+      display.value = calculation;
+    }
+  });
+});
